@@ -641,6 +641,9 @@ button,input,select,textarea{letter-spacing:.025em;}
 .client .facts dt{justify-self:start;text-align:left;font-size:11px;}
 .client .facts dd{justify-self:end;text-align:right;font-size:12px;overflow-wrap:anywhere;}
 @media(max-width:560px){.client .facts>div{grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:12px;}}
+/* Align project facts with the description */
+.client .facts{margin-top:58px;}
+@media(max-width:860px){.client .facts{margin-top:0;}}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
@@ -766,10 +769,18 @@ const DETAIL_FIELDS = [
   { key: 'Responsável', type: 'text' },
 ];
 const months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-const fmtDate = iso => { const d = new Date(iso + 'T12:00'); return `${d.getDate()} ${months[d.getMonth()]}`; };
-const fmtLong = iso => { const d = new Date(iso + 'T12:00'); return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`; };
+const fmtLong = value => {
+  const raw = String(value ?? '');
+  const iso = /^(\d{4})-(\d{2})-(\d{2})/.exec(raw);
+  if (iso) return `${iso[3]}/${iso[2]}/${iso[1]}`;
+  const short = /^(\d{1,2}) ([a-zç]{3})(?: (\d{4}))?$/i.exec(raw);
+  if (!short) return raw;
+  const month = months.indexOf(short[2].toLowerCase());
+  return month < 0 ? raw : `${short[1].padStart(2, '0')}/${String(month + 1).padStart(2, '0')}/${short[3] || '2026'}`;
+};
+const fmtDate = fmtLong;
 const fieldDef = k => DETAIL_FIELDS.find(d => d.key === k);
-const showValue = (k, v) => { const t = fieldDef(k)?.type; return t === 'area' ? `${Number(v).toLocaleString('pt-BR')} m²` : t === 'date' ? fmtLong(v) : v; };
+const showValue = (k, v) => { const t = fieldDef(k)?.type; return t === 'area' ? `${Number(v).toLocaleString('pt-BR')} m²` : t === 'date' ? fmtLong(v) : typeof v === 'string' ? v.toLocaleUpperCase('pt-BR') : v; };
 
 // name, kind (pdf|img|dwg|skp), size, date, older [{name, date}]
 const F = (name, kind, size, date, older = []) => ({ name, kind, size, date, older });
@@ -1171,7 +1182,7 @@ function prow(p) {
       ${p.attention ? `<span class="prow__note">${esc(p.attention)}</span>` : ''}</div>
     <div class="prow__prog" aria-label="Etapa ${p.current} de ${p.stages.length}">${prog(p)}</div>
     <div class="meta prow__meet"><small>Próxima reunião</small>${meet}</div>
-    <div class="meta prow__upd tnum"><small>Atualizado</small>${esc(p.updated)}</div>
+    <div class="meta prow__upd tnum"><small>Atualizado</small>${esc(fmtLong(p.updatedAt || p.updated))}</div>
     <button class="iconbtn copy" type="button" data-copy="${p.slug}" aria-label="Copiar link de ${esc(p.name)}" title="Copiar link">${icon('link')}</button></li>`;
 }
 function renderPainel(filter = '') {
@@ -1326,7 +1337,7 @@ function renderProject(slug) {
         <div>${openEditor === 'facts' ? factsEditor() : `
           <dl class="facts" data-editable>${editBtn('facts', 'Informações')}
             ${P.details.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(showValue(k, v))}</dd></div>`).join('') || (state.editing ? '<div><dt>Informações</dt><dd style="opacity:.55">Cliente, local, áreas…</dd></div>' : '')}
-            <div><dt>Última atualização</dt><dd>${esc(P.updated)}</dd></div></dl>`}</div>
+            <div><dt>Última atualização</dt><dd>${esc(fmtLong(P.updatedAt || P.updated))}</dd></div></dl>`}</div>
       </section>
       ${openEditor === 'meet' ? meetEditor() : meetCard()}
       ${timeline()}
@@ -1413,8 +1424,8 @@ function fileCard(fl, i, j) {
   const hasVersions = fl.older.length > 0;
   return `<div class="file">
     <span class="file__thumb">${thumb}</span>${hasVersions ? `<span class="vbadge">v${vnum(fl.name)}</span>` : ''}
-    <span class="file__body"><span class="file__name">${esc(fl.name)}</span><span class="file__meta">${esc(fl.size)}, ${esc(fl.date)}</span>
-      ${hasVersions ? `<details class="older"><summary>Versões anteriores (${fl.older.length})</summary><ul>${fl.older.map(o => `<li><span><b>v${vnum(o.name)}</b>${esc(o.name)}</span><span>${esc(o.date)}</span></li>`).join('')}</ul></details>` : ''}</span>
+    <span class="file__body"><span class="file__name">${esc(fl.name)}</span><span class="file__meta">${esc(fl.size)}, ${esc(fmtLong(fl.date))}</span>
+      ${hasVersions ? `<details class="older"><summary>Versões anteriores (${fl.older.length})</summary><ul>${fl.older.map(o => `<li><span><b>v${vnum(o.name)}</b>${esc(o.name)}</span><span>${esc(fmtLong(o.date))}</span></li>`).join('')}</ul></details>` : ''}</span>
     <div class="filemenu"><button type="button" aria-haspopup="true" aria-expanded="false" data-filemenu="${i}:${j}" aria-label="Ações para ${esc(fl.name)}">${icon('dots')}</button></div>
   </div>`;
 }
@@ -1736,7 +1747,7 @@ function notificationsHtml() {
  const entries=clientUpdates(P),read=readUpdateIds(P),unread=entries.filter(x=>!read.has(x.id)).length;
  return `<details class="client-notifications"><summary class="b b--small" aria-label="Últimas atualizações, ${unread} não lidas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="notification-label">Atualizações</span>${unread?`<span class="notification-count">${unread}</span>`:''}</summary>
  <section class="notification-panel" aria-label="Últimas atualizações"><div class="notification-head"><h2>Últimas atualizações</h2><button class="iconbtn" type="button" data-close-updates aria-label="Fechar atualizações">${icon('x')}</button></div>
- ${entries.length?`<button class="notification-read" type="button" data-read-updates>Marcar todas como lidas</button><ul>${entries.map(x=>`<li class="${read.has(x.id)?'':'is-unread'}"><small>${esc(x.date)}</small><strong>${esc(x.title)}</strong><p>${esc(x.context)}</p><button type="button" data-update-target="${x.stage===null?'meeting':x.stage}">${x.stage===null?'Ver reunião':'Ver etapa'} →</button></li>`).join('')}</ul>`:'<p class="notification-empty">Ainda não há atualizações. Novos arquivos, recados e reuniões aparecerão aqui.</p>'}</section></details>`;
+ ${entries.length?`<button class="notification-read" type="button" data-read-updates>Marcar todas como lidas</button><ul>${entries.map(x=>`<li class="${read.has(x.id)?'':'is-unread'}"><small>${esc(fmtLong(x.date))}</small><strong>${esc(x.title)}</strong><p>${esc(x.context)}</p><button type="button" data-update-target="${x.stage===null?'meeting':x.stage}">${x.stage===null?'Ver reunião':'Ver etapa'} →</button></li>`).join('')}</ul>`:'<p class="notification-empty">Ainda não há atualizações. Novos arquivos, recados e reuniões aparecerão aqui.</p>'}</section></details>`;
 }
 function stageHtml(s,i) {
  let html=baseStageHtml(s,i);
