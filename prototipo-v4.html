@@ -924,8 +924,12 @@ button,input,select,textarea{letter-spacing:.025em;}
 .client .stage__title h2{letter-spacing:.025em;}
 .client .project-status .meet>div{min-width:0;}
 .client .project-status .meet__title,.client .project-status .meet__meta{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.client .project-status .meet__title{font-size:14px;letter-spacing:0;text-overflow:clip;}
+.client .project-status .meet__title.meet__title--wrap{white-space:normal;overflow:visible;}
 .client .project-status .meeting-actions .cbtn{background:#242629;border-color:#242629;color:#fff;}
 .client .project-status .meeting-actions .cbtn:hover{background:#3b3e41;border-color:#3b3e41;color:#fff;}
+.client .stage:not(.current):not(.is-expanded) .stage__title h2{color:var(--brand-muted);}
+.client .stage:not(.current):not(.is-expanded) .pill{color:var(--brand-muted);border-color:var(--brand-muted);background:transparent;}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
@@ -1646,6 +1650,7 @@ function renderProject(slug) {
   wireProject();
   wireClientFeatures();
   wireCoverWipe();
+  fitMeetingTitle();
 }
 
 let coverWipeWired=false;
@@ -1814,7 +1819,7 @@ function factRow([k, v]) {
 function meetEditor() {
   const m = P.meeting || { date: '', start: '', end: '', title: '', location: '', link: '' };
   return `<form class="editor" data-form="meet"><h3>${P.meeting ? 'Reunião' : 'Agendar reunião'}</h3>
-    <div class="field"><label for="m-title">Assunto</label><input class="input" id="m-title" value="${esc(m.title)}" maxlength="48" placeholder="Apresentação do layout"></div>
+    <div class="field"><label for="m-title">Assunto</label><input class="input" id="m-title" value="${esc(m.title)}" maxlength="40" placeholder="Apresentação do layout"><p class="hint">Até 40 caracteres para o título da reunião.</p></div>
     <div class="row3"><div class="field"><label for="m-date">Data</label><input class="input" type="date" id="m-date" value="${m.date}" required></div>
       <div class="field"><label for="m-start">Início</label><input class="input" type="time" id="m-start" value="${m.start}" required></div>
       <div class="field"><label for="m-end">Fim</label><input class="input" type="time" id="m-end" value="${m.end}"></div></div>
@@ -2053,6 +2058,23 @@ function meetCard() {
  ${m?`<div class="meeting-actions">${link?`<a class="cbtn" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Entrar na reunião</a>`:''}
  <details class="calendar-options"><summary class="b b--small">Adicionar à agenda</summary><div class="calendar-menu"><a href="${esc(calendarLink(P))}" target="_blank" rel="noopener noreferrer">Google Agenda</a><button type="button" data-calendar-download>Apple / Outlook</button></div></details></div>`:''}</section>`;
 }
+function fitMeetingTitle() {
+ const title=document.querySelector('.client .project-status .meet__title');
+ if(!title)return;
+ title.classList.remove('meet__title--wrap');
+ title.style.fontSize='14px';
+ if(!title.clientWidth)return;
+ let lo=9,hi=14;
+ for(let i=0;i<8;i++){
+  const size=(lo+hi)/2;
+  title.style.fontSize=`${size}px`;
+  if(title.scrollWidth<=title.clientWidth)lo=size;else hi=size;
+ }
+ title.style.fontSize=`${lo}px`;
+ if(title.scrollWidth>title.clientWidth)title.classList.add('meet__title--wrap');
+}
+addEventListener('resize',fitMeetingTitle);
+document.fonts?.ready.then(fitMeetingTitle);
 function clientUpdates(p) {
  const updates=[];
  p.stages.forEach((s,i)=>{
