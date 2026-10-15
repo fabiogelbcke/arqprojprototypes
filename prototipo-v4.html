@@ -592,6 +592,22 @@ button,input,select,textarea,.brand,.topnav,.prow__client,.prow__type,.facts,.de
 .client .journey-intro{margin-top:44px;}
 @media(max-width:860px){.client .hero{padding:30px 0 22px;gap:24px;}.client .journey-intro{margin-top:38px;}}
 @media(max-width:560px){.client .banner__img{height:auto;aspect-ratio:16/9;}.client .client-project-title{font-size:clamp(25px,7vw,38px)!important;}.client .hero{padding:24px 0 20px;gap:20px;}.client .meet{padding-block:20px;}.client .journey-intro{margin-top:34px;}}
+/* Wider lettering and restrained cover */
+body{letter-spacing:.025em;}
+button,input,select,textarea{letter-spacing:.025em;}
+.display{letter-spacing:-.035em;}
+.prow__title a,.settings h2,.d h2,.stage h2{letter-spacing:0;}
+.client .client-project-title{letter-spacing:-.015em!important;}
+.client .journey-intro h2,.client .meet__title{letter-spacing:.005em;}
+.client .desc{letter-spacing:.025em;}
+.client .site__in,.client .cwrap{max-width:1120px;}
+.client .banner{max-width:100%;}
+.client .banner__img{aspect-ratio:16/9;}
+.client .hero{grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);}
+.client .desc ul{list-style:none;margin:9px 0 0;padding-left:0;}
+.client .desc li{padding-left:0;margin:5px 0;}
+.client .desc li::marker{content:'';}
+@media(max-width:860px){.client .hero{grid-template-columns:1fr;}}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
@@ -1272,12 +1288,11 @@ function renderProject(slug) {
         : `<button class="setcover" type="button" data-cover-pick>${icon('upload')}<span>Definir capa<br><small>Uma imagem do projeto no topo da página do cliente</small></span></button>`}
       <section class="hero${openEditor === 'facts' ? ' hero--wide' : ''}">
         <div>${openEditor === 'desc' ? descEditor() : `
-          <div class="project-kicker"><span>${esc(P.details.find(([k])=>k==='Tipo de projeto')?.[1]||'Projeto de arquitetura')}</span><span>${esc(P.details.find(([k])=>k==='Localização')?.[1]||P.client)}</span></div>
           <h1 class="client-project-title" title="${esc(P.name)}">${esc(P.name)}</h1>
           <div class="desc" data-editable>${editBtn('desc', 'Descrição')}${descHtml(P.description) || (state.editing ? '<p style="opacity:.55">Sem descrição. Conte ao cliente em duas ou três frases o que é o projeto.</p>' : '')}</div>`}</div>
         <div>${openEditor === 'facts' ? factsEditor() : `
           <dl class="facts" data-editable>${editBtn('facts', 'Informações')}
-            ${P.details.filter(([k]) => !['Localização', 'Tipo de projeto'].includes(k)).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(showValue(k, v))}</dd></div>`).join('') || (state.editing ? '<div><dt>Informações</dt><dd style="opacity:.55">Cliente, local, áreas…</dd></div>' : '')}
+            ${P.details.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(showValue(k, v))}</dd></div>`).join('') || (state.editing ? '<div><dt>Informações</dt><dd style="opacity:.55">Cliente, local, áreas…</dd></div>' : '')}
             <div><dt>Última atualização</dt><dd>${esc(P.updated)}</dd></div></dl>`}</div>
       </section>
       ${openEditor === 'meet' ? meetEditor() : meetCard()}
