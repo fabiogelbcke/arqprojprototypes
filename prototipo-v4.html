@@ -697,10 +697,9 @@ button,input,select,textarea{letter-spacing:.025em;}
 .notification-panel li.is-unread{border-left-color:#444649;}
 .prow__prog .prog__bar i.done,.prow__prog .prog__bar i.current{background:#444649;}
 .conn__dot{background:#707275;box-shadow:0 0 0 5px rgb(112 114 117 / 15%);}
-[data-theme-toggle]{display:none!important;}
 /* Editorial opening: split title and cover share the same tracks as the facts. */
 .client .site__in{height:58px;}
-.client{--project-columns:minmax(0,1.12fr) minmax(300px,.88fr);--project-gap:clamp(40px,7vw,100px);}
+.client{--project-columns:minmax(0,1.6fr) minmax(320px,1fr);--project-gap:clamp(40px,4vw,64px);}
 .client .project-opening{display:grid;grid-template-columns:var(--project-columns);gap:var(--project-gap);align-items:center;padding-top:24px;}
 .client .project-heading{padding:0;min-width:0;align-self:center;}
 .client .project-heading .client-project-title{max-width:100%;margin:0!important;overflow:visible;text-overflow:clip;white-space:normal;text-align:left;text-align-last:left;text-transform:none;font-family:var(--display-font);font-size:clamp(42px,5.1vw,68px)!important;line-height:.98!important;letter-spacing:-.055em!important;color:var(--brand-ink);}
@@ -711,14 +710,51 @@ button,input,select,textarea{letter-spacing:.025em;}
 .client .banner__img img,.client .banner__img svg{height:var(--cover-image-height,100%);object-position:center top;}
 @media(prefers-reduced-motion:reduce){.client .banner__img{height:auto!important;}.client .banner__img img,.client .banner__img svg{height:100%;}}
 .client .hero{grid-template-columns:var(--project-columns);gap:var(--project-gap);padding:clamp(36px,4vw,54px) 0 56px;}
-.client .desc{max-width:62ch;color:var(--brand-ink);line-height:1.7;}
-.client .desc p:first-of-type{color:var(--brand-ink);}
-.client .facts{margin-top:0;padding-top:15px;border-top:1px solid var(--brand-ink);}
+.client .desc{max-width:100%;color:var(--brand-ink);font-size:12px;line-height:1.7;}
+.client .desc p{max-width:none;}
+.client .desc p:first-of-type{color:var(--brand-ink);font-size:12px;}
+.client .facts{margin-top:0;padding-top:0;border-top:0;}
 .client .facts::before{display:none;}
 .client .facts>div{padding:8px 0;}
-.client .facts dt{color:var(--brand-muted);}
-.client .facts dd{color:var(--brand-ink);font-weight:500;}
+.client .facts>div:first-child{padding-top:0;}
+.client .facts dt{color:var(--brand-muted);font-size:10px;}
+.client .facts dd{color:var(--brand-ink);font-size:11px;font-weight:500;}
 .client .meet{margin-top:0;}
+/* Client branding uses straight edges and rectangular progress marks. */
+.client .b,.client .cbtn,.client .iconbtn,.client .pill,.client .file,
+.client .file__thumb,.client .banner__img,.client .notification-panel,
+.client .notification-count,.client .calendar-menu,.client .stage-help-pop,
+.client .stage-help-mark,.client .setcover,.client .notes{border-radius:0;}
+.client-notifications summary.b{background:var(--brand-ink);border-color:var(--brand-ink);color:#fff;}
+.client-notifications summary.b:hover{background:#3b3d40;border-color:#3b3d40;color:#fff;}
+.client-notifications .notification-count{background:#fff;color:var(--brand-ink);}
+.client .tl li{padding-top:19px;}
+.client .tl li::before{display:block;top:0;left:0;right:10px;height:4px;opacity:1;background:var(--brand-line);}
+.client .tl li.done::before,.client .tl li.current::before{background:var(--brand-ink);}
+.client .tl li::after{display:none;}
+.dock,.dock .b,.seg,.seg::before,.seg button,.editbtn,
+.notification-panel,.notification-count,.ghostline,.filemenu>button,
+.checklist li i,.conn__dot,.group--attention .group__head h2::before{border-radius:0;}
+/* Compact project progress, with the next meeting alongside it. */
+.client .project-status{display:grid;grid-template-columns:var(--project-columns);gap:var(--project-gap);align-items:start;margin-top:48px;}
+.client .project-status__timeline,.client .project-status__meeting{min-width:0;}
+.client .project-status .journey-intro{margin-top:0;}
+.client .project-status .tl{margin-top:24px;}
+.client .project-status .meet{display:block;margin:0;padding:18px;background:#f3f3f3;border:0;}
+.client .project-status .meet__title{font-size:17px;line-height:1.2;}
+.client .project-status .meet__meta{font-size:11px;line-height:1.5;}
+.client .project-status .meeting-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.client .project-status .cbtn,.client .project-status .calendar-options summary{width:auto;justify-content:center;min-height:32px;}
+.client .project-status--single{grid-template-columns:1fr;}
+.client .project-status--single .project-status__meeting{max-width:520px;}
+.client .stage{grid-template-columns:64px minmax(0,1fr);align-items:baseline;}
+.client .stage__n{line-height:1.15;align-self:baseline;}
+.client .stage__title{align-items:baseline;}
+.client .stage h2{line-height:1.15;}
+@media(max-width:980px){
+  .client .project-status{grid-template-columns:1fr;gap:28px;}
+  .client .project-status__meeting{max-width:420px;}
+}
 @media(max-width:860px){
   .client{--project-columns:1fr;--project-gap:24px;}
   .client .project-opening{padding-top:20px;}
@@ -727,10 +763,164 @@ button,input,select,textarea{letter-spacing:.025em;}
 }
 @media(max-width:560px){
   .client .site__in{height:52px;}
+  .client .stage{grid-template-columns:44px minmax(0,1fr);}
   .client .project-opening{padding-top:18px;}
   .client .project-heading .client-project-title{font-size:clamp(38px,10vw,54px)!important;}
   .client .hero{padding:30px 0 36px;gap:28px;}
 }
+/* Compact client journey: one expanded stage, with a single-line timeline. */
+.client{--type-body:13px;--type-meta:11px;--type-heading:22px;}
+.client .hero{padding-bottom:40px;}
+.client .project-status{margin-top:36px;}
+.client .journey-intro h2{font-size:21px;}
+.client .tl{display:flex;grid-template-columns:none;gap:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;padding-top:0;margin-top:20px;}
+.client .tl li{flex:0 0 auto;min-width:max-content;padding:18px 18px 6px 0;overflow-wrap:normal;white-space:nowrap;font-size:11px;}
+.client .tl li::before{display:block;top:0;right:8px;height:4px;}
+.client .tl li::after{display:none;}
+.client .tl li>button{white-space:nowrap;}
+.client .tl b{font-size:11px;white-space:nowrap;}
+.client .tl .n,.client .tl li>button>span{font-size:10px;}
+.client .client-file-tools{margin-top:28px;}
+.client .stage{grid-template-columns:38px minmax(0,1fr);column-gap:12px;align-items:baseline;padding:16px 0;transition:padding .25s ease,background-color .25s ease;}
+.client .stage + .stage{margin-top:0;}
+.client .stage.current{margin:0;padding:16px 0;background:transparent;}
+.client .stage__n{font-size:17px;line-height:1.2;align-self:baseline;}
+.client .stage h2{font-size:17px;line-height:1.2;letter-spacing:-.015em;min-width:0;}
+.client .stage__n,.client .stage h2{transition:font-size .32s cubic-bezier(.2,.7,.2,1),color .27s ease;}
+.client .stage__title{align-items:baseline;}
+.client .stage__meta{display:flex;align-items:center;flex-wrap:nowrap;gap:12px;margin-top:5px;font-size:10px;white-space:nowrap;}
+.client .stage .pill{font-size:10px;}
+.client .stage__meta,.client .stage .pill,.client .stage-help-toggle,.client .stage .iconbtn,.client .stage .ghostline{transition:color .27s ease,background-color .27s ease,border-color .27s ease;}
+.client .stage.is-expanded{padding:25px 0;}
+.client .stage.is-expanded.current{padding:25px 0;background:#f5f5f5;}
+.client .stage.is-expanded .stage__n,.client .stage.is-expanded h2{font-size:22px;}
+.client .stage__body{grid-column:2;display:grid;grid-template-rows:0fr;min-height:0;opacity:0;visibility:hidden;transition:grid-template-rows .32s cubic-bezier(.2,.7,.2,1),opacity .2s ease,visibility 0s .32s;}
+.client .stage__body-inner{min-height:0;overflow:hidden;}
+.client .stage.is-expanded .stage__body{grid-template-rows:1fr;opacity:1;visibility:visible;transition:grid-template-rows .32s cubic-bezier(.2,.7,.2,1),opacity .22s ease .04s,visibility 0s;}
+@media(prefers-reduced-motion:reduce){.client .stage,.client .stage__n,.client .stage h2,.client .stage__meta,.client .stage .pill,.client .stage-help-toggle,.client .stage .iconbtn,.client .stage .ghostline,.client .stage__body,.client .stage.is-expanded .stage__body{transition:none;}}
+@media(max-width:760px){
+  .client .tl{display:flex;gap:0;}
+  .client .tl li{padding:18px 18px 6px 0;}
+  .client .tl li::before{display:block;}
+  .client .stage{grid-template-columns:32px minmax(0,1fr);column-gap:9px;padding:14px 0;}
+  .client .stage.current{padding:14px 0;}
+  .client .stage.is-expanded{padding:20px 0;}
+  .client .stage.is-expanded.current{padding:20px 0;}
+  .client .stage h2,.client .stage__n{font-size:16px;}
+  .client .stage.is-expanded h2,.client .stage.is-expanded .stage__n{font-size:20px;}
+}
+/* Meeting actions share one row; the active stage becomes a full-width band. */
+.client .project-status .meeting-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;}
+.client .project-status .calendar-options{min-width:0;}
+.client .project-status .cbtn,.client .project-status .calendar-options summary{width:100%;height:100%;padding-inline:7px;font-size:11px;text-align:center;white-space:nowrap;}
+.client .stage{position:relative;isolation:isolate;transition:padding .32s cubic-bezier(.2,.7,.2,1),color .25s ease;}
+.client .stage.is-expanded{background:transparent;border-top-color:transparent;color:#fff;}
+.client .stage.is-expanded.current{background:transparent;}
+.client .stage::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);background:#242629;opacity:0;pointer-events:none;transition:opacity .27s ease;}
+.client .stage.is-expanded::before{opacity:1;}
+.client .stage.is-expanded .stage__n,.client .stage.is-expanded h2{color:#fff;}
+.client .stage.is-expanded .stage__meta,.client .stage.is-expanded .empty-stage,.client .stage.is-expanded .file__meta,.client .stage.is-expanded .file__type{color:#c9cbcd;}
+.client .stage.is-expanded .pill,.client .stage.is-expanded.current .pill--current{background:transparent;border-color:#c9cbcd;color:#fff;}
+.client .stage.is-expanded .stage-help-toggle,.client .stage.is-expanded .iconbtn,.client .stage.is-expanded .ghostline{color:#fff;}
+.client .stage.is-expanded .stage-help-toggle:hover,.client .stage.is-expanded .iconbtn:hover,.client .stage.is-expanded .ghostline:hover{color:#fff;background:#393b3e;}
+.client .stage.is-expanded .notes{color:#fff;}
+.client .stage.is-expanded .file{background:#343638;color:#fff;}
+.client .stage.is-expanded .older summary{color:#c9cbcd;}
+.client .stage.is-expanded .older li{border-top-color:#55585b;}
+.client .stage.is-expanded .stage-help-pop{background:#f3f3f3;color:#242629;}
+.client .stage.is-expanded .stage-help-pop .iconbtn{color:#242629;}
+@media(prefers-reduced-motion:reduce){.client .stage::before{transition:none;}}
+@media(max-width:420px){.client .project-status .cbtn,.client .project-status .calendar-options summary{font-size:10px;padding-inline:5px;min-height:40px;white-space:normal;line-height:1.15;}}
+/* Project facts begin with the description; theme control sits before updates. */
+@media(min-width:861px){.client .hero .facts{transform:translateY(-6px);}}
+.client .theme-switch{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:34px;padding:0 11px;border:1px solid var(--brand-line);border-radius:0;background:transparent;color:var(--brand-ink);font:500 10px/1.2 var(--font);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;cursor:pointer;}
+.client .theme-switch:hover{background:var(--brand-surface);}
+.client .theme-switch svg{width:15px;height:15px;flex:none;}
+@media(max-width:640px){.client .theme-switch{width:34px;padding:0;}.client .theme-switch__label{display:none;}}
+/* Dark mode stays within the same neutral palette. */
+:root[data-theme="dark"]{--bg:#1d1e20;--raise:#2a2c2e;--surface:#303235;--ink:#f1f1f1;--muted:#babdc0;--line:#55585b;--line-strong:#777a7d;--accent:#f1f1f1;--on-accent:#1d1e20;--mark:#d4d6d8;--mark-soft:rgb(255 255 255 / 9%);--focus:#fff;--glass:rgb(29 30 32 / 94%);--glass-line:rgb(255 255 255 / 16%);--shadow:0 18px 48px rgb(0 0 0 / 25%);color-scheme:dark;}
+:root[data-theme="dark"] .client{--brand-bg:#1d1e20;--brand-surface:#303235;--brand-ink:#f1f1f1;--brand-muted:#babdc0;--brand-line:#55585b;--brand-accent:#f1f1f1;}
+:root[data-theme="dark"] .client .project-status .meet{background:#303235;}
+:root[data-theme="dark"] .client .stage.is-expanded::before{background:#0e0f10;}
+:root[data-theme="dark"] .client .stage.is-expanded .file{background:#282a2c;}
+:root[data-theme="dark"] .client .file__thumb{background:linear-gradient(160deg,#35383b,#27292b);}
+:root[data-theme="dark"] .client .tl li.current b,:root[data-theme="dark"] .client .stage.current .stage__n{color:var(--brand-ink);}
+:root[data-theme="dark"] .client-notifications summary.b{background:#f1f1f1;border-color:#f1f1f1;color:#1d1e20;}
+:root[data-theme="dark"] .client-notifications summary.b:hover{background:#d5d7d9;border-color:#d5d7d9;color:#1d1e20;}
+:root[data-theme="dark"] .client-notifications .notification-count{background:#1d1e20;color:#f1f1f1;}
+/* The image and header controls share the same right-hand column. */
+@media(min-width:861px){
+  .client .site__in{display:grid;grid-template-columns:var(--project-columns);gap:var(--project-gap);}
+  .client .client-header-tools{width:100%;margin-left:0;justify-content:flex-end;gap:12px;}
+}
+.client .site__brand{display:flex;align-items:center;gap:12px;min-width:0;white-space:nowrap;}
+.client .client-notifications summary.b{font-size:10px;letter-spacing:.08em;text-transform:uppercase;}
+/* Staff index follows the same monochrome selection and theme control. */
+.topbar .theme-switch{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:34px;padding:0 11px;border:1px solid var(--line);border-radius:0;background:transparent;color:var(--ink);font:500 10px/1.2 var(--font);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;cursor:pointer;}
+.topbar .theme-switch:hover{background:var(--surface);}
+.topbar .theme-switch svg{width:15px;height:15px;flex:none;}
+.painel .prow{transition:color .27s ease;}
+.painel .prow::before{border:0;border-radius:0;background:#242629;opacity:0;transition:opacity .27s ease;}
+.painel .prow:is(:hover,:focus-within,.is-pressed)::before{opacity:1;}
+.painel .prow:is(:hover,:focus-within,.is-pressed){--ink:#fff;--muted:#c9cbcd;--line:#55585b;--line-strong:#8c8f92;--mark:#f1f1f1;color:#fff;}
+.painel .prow:is(:hover,:focus-within,.is-pressed) .prow__title a,.painel .prow:is(:hover,:focus-within,.is-pressed) .prow__client{color:#fff;}
+.painel .prow:is(:hover,:focus-within,.is-pressed) .prow__type,.painel .prow:is(:hover,:focus-within,.is-pressed) .prow__upd{color:#c9cbcd;}
+.painel .prow:is(:hover,:focus-within,.is-pressed) .progress-count{border-color:#8c8f92;color:#fff;}
+.painel .prow:is(:hover,:focus-within,.is-pressed) .iconbtn{color:#fff;}
+:root[data-theme="dark"] .painel .prow::before{background:#0e0f10;}
+@media(max-width:860px){.topbar .theme-switch{width:34px;padding:0;}.topbar .theme-switch__label{display:none;}}
+@media(prefers-reduced-motion:reduce){.painel .prow,.painel .prow::before{transition:none;}}
+/* Two readable project columns on phones, without desktop subgrid tracks. */
+@media(max-width:620px){
+  .painel .rows,.painel .group--draft .rows{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px;row-gap:22px;align-items:start;}
+  .painel .prow{grid-row:auto;grid-template-rows:auto;grid-template-columns:minmax(0,1fr);grid-template-areas:"cover" "title" "prog" "meet" "upd";row-gap:8px;padding:0 0 14px;margin:0;min-width:0;}
+  .painel .prow .cover{grid-area:cover;aspect-ratio:4/3;min-width:0;}
+  .painel .prow__title{grid-area:title;grid-column:auto;min-width:0;}
+  .painel .prow__title>a{max-width:100%;font-size:clamp(15px,4vw,19px);line-height:1.12;overflow-wrap:normal;word-break:normal;hyphens:auto;}
+  .painel .prow__identity{display:block;width:100%;margin-top:7px;}
+  .painel .prow__identity .prow__client{display:block;width:100%;font-size:11px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .painel .prow__identity .prow__type{display:block;width:100%;max-width:none;margin:4px 0 0;text-align:left;font-size:9px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .painel .prow__prog{grid-area:prog;min-width:0;}
+  .painel .progress-heading{gap:5px;flex-wrap:wrap;margin-bottom:4px;}
+  .painel .progress-caption{font-size:8px;line-height:1.2;}
+  .painel .progress-count{font-size:9px;padding:2px 4px;}
+  .painel .progress-title{font-size:11px;line-height:1.25;margin-bottom:6px;overflow-wrap:normal;word-break:normal;hyphens:auto;}
+  .painel .prow__meet{grid-area:meet;text-align:left;font-size:10px;line-height:1.3;overflow-wrap:break-word;}
+  .painel .prow__meet small{font-size:9px;}
+  .painel .prow__upd{grid-area:upd;font-size:9px;line-height:1.25;}
+  .painel .prow__upd small{font-size:9px;}
+  .painel .prow .copy{display:none;}
+}
+/* Quiet header icons and a compact, square unread counter. */
+.client .theme-switch,.topbar .theme-switch{width:36px;min-height:36px;padding:0;gap:0;border:0;background:transparent;}
+.client .theme-switch:hover,.topbar .theme-switch:hover{background:transparent;opacity:.65;}
+.client .theme-switch__label,.topbar .theme-switch__label,.client .notification-label{display:none;}
+.client .theme-switch svg,.topbar .theme-switch svg{width:19px;height:19px;}
+.client .client-notifications summary.b{position:relative;display:grid;place-items:center;width:36px;min-width:36px;height:36px;min-height:36px;padding:0;border:0;background:transparent;color:var(--brand-ink);}
+.client .client-notifications summary.b:hover{border:0;background:transparent;color:var(--brand-muted);}
+.client .client-notifications summary.b svg{width:19px;height:19px;}
+.client .notification-count{position:absolute;top:-3px;right:-5px;min-width:16px;height:16px;padding:0 2px;border-radius:0;background:var(--brand-ink);color:var(--brand-bg);font-size:9px;line-height:1;}
+:root[data-theme="dark"] .client .client-notifications summary.b,:root[data-theme="dark"] .client .client-notifications summary.b:hover{border:0;background:transparent;color:var(--brand-ink);}
+:root[data-theme="dark"] .client .notification-count{background:var(--brand-ink);color:var(--brand-bg);}
+@media(max-width:720px){.topbar__in>.theme-switch{margin-left:auto;}}
+@media(max-width:640px){.client .client-header-tools .theme-switch svg,.topbar .theme-switch svg{transform:translateX(8px);}}
+/* Keep each mobile selection inside its own card and give text breathing room. */
+@media(max-width:620px){
+  .painel .rows,.painel .group--draft .rows{row-gap:26px;}
+  .painel .prow{padding:4px 4px 12px;row-gap:7px;}
+  .painel .prow::before{inset:0;}
+  .painel .prow__title>a{font-size:clamp(13px,3.6vw,16px);line-height:1.15;}
+  .painel .prow__identity .prow__client{font-size:10px;line-height:1.25;}
+  .painel .prow__identity .prow__type{font-size:8px;line-height:1.2;}
+  .painel .progress-caption,.painel .progress-count{font-size:8px;}
+  .painel .progress-title{font-size:10px;line-height:1.2;}
+  .painel .prow__meet{font-size:9px;line-height:1.25;}
+  .painel .prow__meet small,.painel .prow__upd,.painel .prow__upd small{font-size:8px;}
+}
+/* Stage names read consistently across the index, timeline and detail view. */
+.painel .progress-title,.client .tl b,.client .stage__title h2,.client .rail__now p{text-transform:uppercase;}
+.client .rail__now small{text-transform:none;}
+.client .project-status .meet{text-transform:uppercase;}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
@@ -766,7 +956,7 @@ button,input,select,textarea{letter-spacing:.025em;}
       <p class="linkprev" id="np-link"></p>
       <p class="err" id="np-dup" role="alert" hidden></p>
     </div>
-    <div class="field"><label for="np-client">Cliente</label><input class="input" id="np-client" required autocomplete="off" placeholder="Família Andrade"><p class="hint">Como o cliente aparece no painel e na página. Dá para mudar depois.</p></div>
+    <div class="field"><label for="np-client">Cliente</label><input class="input" id="np-client" required maxlength="48" autocomplete="off" placeholder="Família Andrade"><p class="hint">Até 48 caracteres. O nome completo fica salvo; no cartão mobile, nomes longos aparecem abreviados.</p></div>
     <fieldset class="field" style="border:0;padding:0;margin:0">
       <legend class="label" style="margin-bottom:8px">Etapas</legend>
       <div class="choice">
@@ -815,7 +1005,7 @@ button,input,select,textarea{letter-spacing:.025em;}
   <form class="d__body" method="dialog">
     <div class="d__head"><h2 id="dlg-proj-title">Projeto</h2><button class="iconbtn" value="cancel" aria-label="Fechar"><svg><use href="#i-x"/></svg></button></div>
     <div class="row2"><div class="field"><label for="pp-name">Nome do projeto</label><input class="input" id="pp-name"></div>
-      <div class="field"><label for="pp-client">Cliente</label><input class="input" id="pp-client"></div></div>
+      <div class="field"><label for="pp-client">Cliente</label><input class="input" id="pp-client" maxlength="48"></div></div>
     <div class="field"><span class="label">Capa</span><div class="cover-preview" id="pp-cover"></div></div>
     <div class="field"><label for="pp-link">Link do cliente</label><input class="input" id="pp-link"><p class="hint">Mudar o link quebra os links já enviados.</p></div>
     <fieldset class="field" style="border:0;padding:0;margin:0"><legend class="label" style="margin-bottom:8px">Acesso</legend>
@@ -879,7 +1069,7 @@ const showValue = (k, v) => {
 // name, kind (pdf|img|dwg|skp), size, date, older [{name, date}]
 const F = (name, kind, size, date, older = []) => ({ name, kind, size, date, older });
 const state = {
-  theme: 'light', drive: 'ok', editing: false, office: 'ALINEA ARQUITETOS',
+  theme: (()=>{try{return localStorage.getItem('alinea-theme')==='dark'?'dark':'light';}catch{return 'light';}})(), drive: 'ok', editing: false, office: 'ALINEA ARQUITETOS',
   projects: [
     { slug: 'casa-jardim', name: 'Casa Jardim', client: 'Família Oliveira', email: 'oliveira@exemplo.com', coverImg: { seed: 1 }, current: 3, published: true, updated: '11 out',
       meeting: { date: '2026-10-21', start: '14:00', end: '15:00', title: 'Apresentação do layout', location: 'Online', link: 'https://meet.google.com/abc-defg-hij' },
@@ -1231,6 +1421,7 @@ function toast(msg, undo) {
 ------------------------------------------------------------------------ */
 let lastRoute = null;
 function route() {
+  document.documentElement.dataset.theme=state.theme;
   const h = location.hash.slice(1) || 'painel';
   // Arriving at a project: edit mode only right after creating it; otherwise
   // it opens as the client sees it, with "Editar" one click away.
@@ -1245,12 +1436,12 @@ function route() {
 }
 addEventListener('hashchange', () => { $('#toast').hidden = true; route(); scrollTo(0, 0); });
 
-const themeBtn = (cls = 'iconbtn') => `<button class="${cls}" type="button" data-theme-toggle aria-label="${state.theme === 'dark' ? 'Usar tema claro' : 'Usar tema escuro'}">${icon(state.theme === 'dark' ? 'sun' : 'moon')}</button>`;
+const themeBtn = (cls = 'iconbtn', labeled = false) => `<button class="${cls}" type="button" data-theme-toggle aria-label="${state.theme === 'dark' ? 'Usar tema claro' : 'Usar tema escuro'}" title="${state.theme === 'dark' ? 'Usar tema claro' : 'Usar tema escuro'}">${icon(state.theme === 'dark' ? 'sun' : 'moon')}${labeled?`<span class="theme-switch__label">Modo ${state.theme === 'dark' ? 'claro' : 'escuro'}</span>`:''}</button>`;
 function topbar(which) {
   $('#chrome').innerHTML = `<header class="topbar"><div class="topbar__in">
     <a class="brand" href="#painel"><svg><use href="#logo"/></svg><span>${esc(state.office)}</span></a>
     <nav class="topnav" aria-label="Painel"><a href="#painel" ${which === 'painel' ? 'aria-current="page"' : ''}>Projetos</a><a href="#config" ${which === 'config' ? 'aria-current="page"' : ''}>Configurações</a></nav>
-    <span class="spacer"></span>${themeBtn()}<button class="b b--small b--ghost hide-sm" type="button">Sair</button></div></header>`;
+    <span class="spacer"></span>${themeBtn('theme-switch',true)}<button class="b b--small b--ghost hide-sm" type="button">Sair</button></div></header>`;
 }
 
 /* ------------------------------------------------------------------------
@@ -1272,8 +1463,8 @@ function prow(p) {
     ${cover(p)}
     <button class="card-cover-add" type="button" data-card-cover="${esc(p.slug)}" aria-label="Trocar foto de ${esc(p.name)}" title="Trocar foto">${icon('plus')}</button>
     <div class="prow__title"><a href="#p/${p.slug}">${esc(p.name)}</a>${p.published ? '' : '<span class="tag">Rascunho</span>'}
-      <span class="prow__identity"><span class="prow__client">${esc(p.client)}</span><span class="prow__type">${esc(projectType(p))}</span></span>
-      ${p.attention ? `<span class="prow__note">${esc(p.attention)}</span>` : ''}</div>
+      <span class="prow__identity"><span class="prow__client" title="${esc(p.client)}">${esc(p.client)}</span><span class="prow__type" title="${esc(projectType(p))}">${esc(projectType(p))}</span></span>
+    </div>
     <div class="prow__prog" aria-label="Etapa ${p.current} de ${p.stages.length}">${prog(p)}</div>
     <div class="meta prow__meet"><small>Próxima reunião</small>${meet}</div>
     <div class="meta prow__upd tnum"><small>Atualizado</small>${esc(fmtLong(p.updatedAt || p.updated))}</div>
@@ -1289,15 +1480,14 @@ function renderPainel(filter = '') {
     ['draft', 'Rascunhos', list.filter(p => !p.published)],
     ['done', 'Concluídos', list.filter(p => p.done)],
   ];
-  const active = state.projects.filter(p => !p.done).length;
   const notice = state.drive === 'ok' ? '' : `<div class="notice" role="status"><p>${state.drive === 'none'
       ? '<strong>Conecte o Google Drive</strong> para criar projetos e enviar arquivos daqui.'
       : '<strong>A conexão com o Google Drive expirou.</strong> As páginas dos clientes continuam no ar; envios e novos projetos ficam parados até reconectar.'}</p>
       <a class="b b--primary b--small" href="#config/drive">${state.drive === 'none' ? 'Conectar' : 'Reconectar'}</a></div>`;
   $('#app').innerHTML = `<div class="wrap painel">
-    <div class="editorial-kicker"><span>ALÍNEA / Espaço de projetos</span><span>Arquitetura em processo — 01</span></div>
+    <div class="editorial-kicker"><span>ALÍNEA / Espaço de projetos</span></div>
     <div class="painel__head">
-      <h1 class="display">Projetos<small class="tnum">${active} em andamento, ${state.projects.filter(p => p.attention && !p.done).length} precisam de você</small></h1>
+      <h1 class="display">Projetos</h1>
       <div class="painel__tools">
         <div class="search"><svg><use href="#i-search"/></svg><label class="sr" for="q">Buscar projeto</label><input class="input" id="q" type="search" placeholder="Buscar projeto ou cliente" value="${esc(filter)}"></div>
         <div class="sort-controls"><label for="project-sort">Ordenar por</label><select class="select" id="project-sort">${[['type','Tipo de projeto'],['client','Nome do cliente'],['name','Nome do projeto'],['createdAt','Data de criação'],['updatedAt','Última atualização']].map(([value,label])=>`<option value="${value}" ${state.projectSort===value?'selected':''}>${label}</option>`).join('')}</select><button class="b" type="button" id="sort-direction" aria-label="${state.projectSortDirection==='asc'?'Ordem crescente. Alterar para decrescente':'Ordem decrescente. Alterar para crescente'}">${['createdAt','updatedAt'].includes(state.projectSort) ? (state.projectSortDirection==='asc'?'Antigos primeiro ↑':'Recentes primeiro ↓') : (state.projectSortDirection==='asc'?'A–Z ↑':'Z–A ↓')}</button></div>
@@ -1310,7 +1500,7 @@ function renderPainel(filter = '') {
         <div class="group__head"><button class="more" type="button" aria-expanded="false" aria-controls="g-done">${icon('down')}${title}</button><span class="n">${ps.length}</span></div>
         <ul class="rows" id="g-done" hidden>${ps.map(prow).join('')}</ul></section>` : `
       <section class="group group--${k}" aria-labelledby="g-${k}">
-        <div class="group__head"><h2 id="g-${k}">${title}</h2><span class="n">${ps.length}</span></div>
+        <div class="group__head"><h2 id="g-${k}">${title}</h2><span class="n"${k === 'active' ? ` aria-label="${ps.length} projetos em andamento de ${list.length} projetos exibidos"` : ''}>${k === 'active' ? `${ps.length}/${list.length}` : ps.length}</span></div>
         <ul class="rows">${ps.map(prow).join('')}</ul></section>`).join('') || '<p>Nenhum projeto encontrado.</p>'}
   </div>`;
   $('#app .painel').insertAdjacentHTML('beforeend', '<footer class="editorial-foot"><span>ALÍNEA ARQUITETOS</span><span>Do primeiro traço ao espaço vivido.</span><a href="#config">Seu escritório ↗</a></footer>');
@@ -1420,7 +1610,7 @@ function renderProject(slug) {
     <span class="hide-sm">${themeBtn()}</span>
   </nav>`;
   $('#app').innerHTML = `<div class="client${state.editing ? ' editing' : ''}">
-    <div class="site"><div class="site__in"><svg><use href="#logo"/></svg><span>${esc(state.office)}</span><div class="client-header-tools">${notificationsHtml()}${themeBtn()}</div></div></div>
+    <div class="site"><div class="site__in"><div class="site__brand"><svg><use href="#logo"/></svg><span>${esc(state.office)}</span></div><div class="client-header-tools">${notificationsHtml()}${themeBtn('theme-switch',true)}</div></div></div>
     <div class="cwrap">
       ${checklist()}
       <div class="project-opening">
@@ -1438,8 +1628,10 @@ function renderProject(slug) {
             ${P.details.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(showValue(k, v))}</dd></div>`).join('') || (state.editing ? '<div><dt>Informações</dt><dd style="opacity:.55">Cliente, local, áreas…</dd></div>' : '')}
             <div><dt>Última atualização</dt><dd>${esc(fmtLong(P.updatedAt || P.updated))}</dd></div></dl>`}</div>
       </section>
-      ${openEditor === 'meet' ? meetEditor() : meetCard()}
-      ${timeline()}
+      <div class="project-status${openEditor === 'meet' || !P.stages.length ? ' project-status--single' : ''}">
+        <div class="project-status__timeline">${timeline()}</div>
+        <div class="project-status__meeting">${openEditor === 'meet' ? meetEditor() : meetCard()}</div>
+      </div>
       <div class="rail">${rail()}</div>
       <div class="client-file-tools"><div class="search">${icon('search')}<label class="sr" for="client-file-search">Pesquisar arquivos</label><input class="input" type="search" id="client-file-search" placeholder="Pesquisar arquivos ou etapas"></div><span id="client-search-status" class="client-search-status" role="status" aria-live="polite"></span></div>
       ${P.stages.map(stageHtml).join('')}
@@ -1495,8 +1687,7 @@ function checklist() {
 
 function timeline() {
   if (!P.stages.length) return '';
-  const progress=Math.round((Math.min(P.current,P.stages.length)/P.stages.length)*100);
-  return `<div class="journey-intro"><div><span class="journey-kicker">PERCURSO DO PROJETO</span><h2>Etapas e próximos passos</h2></div><span class="journey-progress">${P.done?'Concluído':progress+'%'} <i>·</i> ${pad(Math.min(P.current,P.stages.length))} de ${pad(P.stages.length)}</span></div>
+  return `<div class="journey-intro"><div><span class="journey-kicker">PERCURSO DO PROJETO</span><h2>Etapas e próximos passos</h2></div></div>
   <ol class="tl" style="--n:${P.stages.length}" aria-label="Etapas">${P.stages.map((s, i) => {
     const st = P.done || i + 1 < P.current ? 'done' : i + 1 === P.current ? 'current' : '';
     return `<li class="${st}"><span class="n">${pad(i + 1)}</span><b>${esc(s.title)}</b><span>${st === 'done' ? 'Concluída' : st === 'current' ? 'Em andamento' : ''}</span></li>`; }).join('')}</ol>`;
@@ -1523,13 +1714,13 @@ function baseStageHtml(s, i) {
           <button class="iconbtn" type="button" data-move="${i}:1" aria-label="Mover etapa para baixo" ${i === P.stages.length - 1 ? 'disabled' : ''}>${icon('down')}</button>
           <button class="iconbtn" type="button" data-remove-stage="${i}" aria-label="Remover etapa ${esc(s.title)}">${icon('x')}</button></span></div>
       <p class="stage__meta">${pill}<span>${s.files.length ? s.files.length + (s.files.length === 1 ? ' arquivo' : ' arquivos') : 'Sem arquivos'}</span></p></div>
-    <div class="stage__body">
+    <div class="stage__body"><div class="stage__body-inner">
       ${openEditor === 'notes-' + i ? notesEditor(i) : s.notes ? `<div class="notes" data-editable>${editBtn('notes-' + i, 'Recado')}<p>${esc(s.notes)}</p></div>` : `<button class="ghostline addnote" type="button" data-edit="notes-${i}">${icon('plus')}Recado para o cliente</button>`}
       ${s.files.length ? `<div class="files">${s.files.map((fl, j) => fileCard(fl, i, j)).join('')}</div>` : (state.editing ? '' : '<p class="empty-stage">Ainda sem arquivos nesta etapa.</p>')}
       <div class="drop" data-drop="${i}">${icon('upload')}
         <span>Solte arquivos aqui ou</span><input type="file" id="up-${i}" multiple data-upload="${i}"><label for="up-${i}">escolha no computador</label>
         <small>Vão para a pasta “${pad(i + 1)} - ${esc(s.title)}” no seu Drive e aparecem para o cliente.</small></div>
-    </div></section>`;
+    </div></div></section>`;
 }
 
 /* --- versions: never rename an existing file ---------------------------- */
@@ -1715,7 +1906,7 @@ document.addEventListener('click', async e => {
   if (!t) { document.querySelectorAll('.menu__list').forEach(m => m.hidden = true); return; }
   const d = t.dataset;
   if (d.cardCover) { openCardCover(d.cardCover); return; }
-  if (d.themeToggle !== undefined) { state.theme = state.theme === 'dark' ? 'light' : 'dark'; document.documentElement.dataset.theme = state.theme; route(); document.querySelector('[data-theme-toggle]')?.focus(); return; }
+  if (d.themeToggle !== undefined) { state.theme = state.theme === 'dark' ? 'light' : 'dark'; try{localStorage.setItem('alinea-theme',state.theme);}catch{} document.documentElement.dataset.theme = state.theme; route(); document.querySelector('[data-theme-toggle]')?.focus(); return; }
   if (d.new !== undefined) { $('#form-new').reset(); updateNewLink(); $('#dlg-new').showModal(); return; }
   if (d.close !== undefined) { t.closest('dialog').close(); return; }
   if (d.copy) { toast(`Link copiado: alineaarquitetos.com/${d.copy}`); return; }
@@ -1825,7 +2016,7 @@ const CLIENT_STAGE_HELP = {
  'Entrega Final': ['Organização da documentação final do projeto.', 'Conjunto final de desenhos e arquivos.'],
  'Serviços extras': ['Acompanhamento dos serviços complementares contratados.', 'Documentos e orientações conforme o escopo combinado.']
 };
-const stageOpenState = new Map();
+const activeStageIndex = new Map();
 function safeWebLink(value) { try { const url=new URL(value); return ['https:','http:'].includes(url.protocol)?url.href:''; } catch {return '';} }
 function meetingDates(m) {
  const start=new Date(`${m.date}T${m.start}:00-03:00`);
@@ -1847,12 +2038,13 @@ function calendarFile(p) {
 }
 function meetCard() {
  const m=P.meeting,link=m?safeWebLink(m.link):'';
+ const weekday=m?new Intl.DateTimeFormat('pt-BR',{weekday:'long',timeZone:'UTC'}).format(new Date(`${m.date}T12:00:00Z`)):'';
  return `<section class="meet" data-editable aria-label="Reunião">${editBtn('meet',m?'Reunião':'Agendar')}
  <div><h2>Próxima reunião</h2><p class="meet__title">${m?esc(m.title||'Reunião do projeto'):'Vamos conversar sobre o seu projeto'}</p>
- <p class="meet__meta">${m?`${esc(fmtLong(m.date))} · ${esc(m.start)}${m.end?' – '+esc(m.end):''} · horário de Brasília`:'Nenhuma reunião agendada. O próximo encontro aparecerá aqui.'}</p>
+ <p class="meet__meta">${m?`${esc(fmtLong(m.date))} · ${esc(weekday)} · ${esc(m.start)}${m.end?' – '+esc(m.end):''}`:'Nenhuma reunião agendada. O próximo encontro aparecerá aqui.'}</p>
  ${m?.location?`<p class="meet__meta">Local: ${esc(m.location)}</p>`:''}</div>
- ${m?`<div class="meeting-actions">${link?`<a class="cbtn" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Entrar na reunião ↗</a>`:''}
- <details class="calendar-options"><summary class="b b--small">Adicionar à agenda ${icon('down')}</summary><div class="calendar-menu"><a href="${esc(calendarLink(P))}" target="_blank" rel="noopener noreferrer">Google Agenda ↗</a><button type="button" data-calendar-download>Apple / Outlook (.ics) ↓</button></div></details></div>`:''}</section>`;
+ ${m?`<div class="meeting-actions">${link?`<a class="cbtn" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Entrar na reunião</a>`:''}
+ <details class="calendar-options"><summary class="b b--small">Adicionar à agenda</summary><div class="calendar-menu"><a href="${esc(calendarLink(P))}" target="_blank" rel="noopener noreferrer">Google Agenda</a><button type="button" data-calendar-download>Apple / Outlook</button></div></details></div>`:''}</section>`;
 }
 function clientUpdates(p) {
  const updates=[];
@@ -1866,29 +2058,35 @@ function clientUpdates(p) {
 function readUpdateIds(p){try{return new Set(JSON.parse(localStorage.getItem('alinea-read:'+p.slug)||'[]'));}catch{return new Set();}}
 function notificationsHtml() {
  const entries=clientUpdates(P),read=readUpdateIds(P),unread=entries.filter(x=>!read.has(x.id)).length;
- return `<details class="client-notifications"><summary class="b b--small" aria-label="Últimas atualizações, ${unread} não lidas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="notification-label">Atualizações</span>${unread?`<span class="notification-count">${unread}</span>`:''}</summary>
+ return `<details class="client-notifications"><summary class="b b--small" aria-label="Últimas atualizações, ${unread} não lidas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="notification-label">ATUALIZAÇÕES</span>${unread?`<span class="notification-count">${unread}</span>`:''}</summary>
  <section class="notification-panel" aria-label="Últimas atualizações"><div class="notification-head"><h2>Últimas atualizações</h2><button class="iconbtn" type="button" data-close-updates aria-label="Fechar atualizações">${icon('x')}</button></div>
  ${entries.length?`<button class="notification-read" type="button" data-read-updates>Marcar todas como lidas</button><ul>${entries.map(x=>`<li class="${read.has(x.id)?'':'is-unread'}"><small>${esc(fmtLong(x.date))}</small><strong>${esc(x.title)}</strong><p>${esc(x.context)}</p><button type="button" data-update-target="${x.stage===null?'meeting':x.stage}">${x.stage===null?'Ver reunião':'Ver etapa'} →</button></li>`).join('')}</ul>`:'<p class="notification-empty">Ainda não há atualizações. Novos arquivos, recados e reuniões aparecerão aqui.</p>'}</section></details>`;
 }
 function stageHtml(s,i) {
  let html=baseStageHtml(s,i);
- const key=P.slug+':'+i,open=state.editing||(stageOpenState.get(key)??(i===P.current-1));
+ const open=state.editing||i===(activeStageIndex.get(P.slug)??P.current-1);
  const help=CLIENT_STAGE_HELP[s.title]||['Informações e documentos desta fase do projeto.','Arquivos e orientações definidos pelo escritório.'];
  const controls=`<div class="client-stage-controls"><div class="stage-help"><button class="stage-help-toggle" type="button" aria-expanded="false" aria-label="Sobre esta etapa: ${esc(s.title)}" data-stage-help="${i}"><span class="stage-help-mark" aria-hidden="true">i</span><span>Sobre esta etapa</span></button><div class="stage-help-pop" hidden><button type="button" class="iconbtn stage-help-close" data-stage-help-close aria-label="Fechar explicação">${icon('x')}</button><p>${esc(help[0])}</p><strong>Entregas previstas</strong><p>${esc(help[1])}</p></div></div><button class="iconbtn" type="button" data-toggle-client-stage="${i}" aria-controls="stage-body-${i}" aria-expanded="${open}" aria-label="${open?'Recolher':'Expandir'} ${esc(s.title)}">${icon(open?'up':'down')}</button></div>`;
  html=html.replace('<span class="stagectl">',controls+'<span class="stagectl">');
- html=html.replace('<div class="stage__body">',`<div class="stage__body" id="stage-body-${i}" ${open?'':'hidden'}>`);
+ html=html.replace('<div class="stage__body">',`<div class="stage__body" id="stage-body-${i}" aria-hidden="${!open}" ${open?'':'inert'}>`);
+ html=html.replace('class="stage ',`class="stage ${open?'is-expanded ':''}`);
  return html;
 }
-function setClientStage(i,open) {
- const section=document.getElementById('stage-'+i);if(!section)return;
- stageOpenState.set(P.slug+':'+i,open);
- section.querySelector('.stage__body').hidden=!open;
- const btn=section.querySelector('[data-toggle-client-stage]');
- btn.setAttribute('aria-expanded',String(open));btn.setAttribute('aria-label',(open?'Recolher ':'Expandir ')+P.stages[i].title);btn.innerHTML=icon(open?'up':'down');
+function setClientStage(i,preservePosition=false) {
+ if(state.editing||document.querySelector('#client-file-search')?.value)return;
+ const anchor=document.getElementById('stage-'+i);
+ const before=preservePosition?anchor?.getBoundingClientRect().top:null;
+ activeStageIndex.set(P.slug,i);
+ document.querySelectorAll('.client .stage').forEach((section,index)=>{
+  const open=index===i,body=section.querySelector('.stage__body'),btn=section.querySelector('[data-toggle-client-stage]');
+  body.toggleAttribute('inert',!open);body.setAttribute('aria-hidden',String(!open));section.classList.toggle('is-expanded',open);
+  btn.setAttribute('aria-expanded',String(open));btn.setAttribute('aria-label',(open?'Etapa aberta: ':'Abrir etapa ')+P.stages[index].title);btn.innerHTML=icon(open?'up':'down');
+ });
+ if(before!==null&&anchor)window.scrollBy(0,anchor.getBoundingClientRect().top-before);
 }
 function jumpClientStage(i) {
  const search=$('#client-file-search');if(search?.value){search.value='';filterClientFiles('');}
- setClientStage(i,true);const section=document.getElementById('stage-'+i);section?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
+ setClientStage(i);const section=document.getElementById('stage-'+i);section?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
  const heading=section?.querySelector('h2');heading?.setAttribute('tabindex','-1');heading?.focus({preventScroll:true});
 }
 function filterClientFiles(value) {
@@ -1897,24 +2095,42 @@ function filterClientFiles(value) {
   const s=P.stages[i];let count=0;
   section.querySelectorAll('.file').forEach((card,j)=>{const match=!query||slugify(s.files[j].name+' '+s.title).includes(query);card.hidden=!match;if(match)count++;});
   section.hidden=!!query&&!count;total+=count;
-  if(query)section.querySelector('.stage__body').hidden=false;
-  else section.querySelector('.stage__body').hidden=!(state.editing||(stageOpenState.get(P.slug+':'+i)??i===P.current-1));
-  const open=!section.querySelector('.stage__body').hidden,btn=section.querySelector('[data-toggle-client-stage]');
+  const open=!!query||state.editing||i===(activeStageIndex.get(P.slug)??P.current-1);
+  const body=section.querySelector('.stage__body'),btn=section.querySelector('[data-toggle-client-stage]');
+  body.toggleAttribute('inert',!open);body.setAttribute('aria-hidden',String(!open));
+  section.classList.toggle('is-expanded',open);
   btn.setAttribute('aria-expanded',String(open));btn.innerHTML=icon(open?'up':'down');
  });
  $('#client-search-status').textContent=query?`${total} ${total===1?'arquivo encontrado':'arquivos encontrados'}`:'';
 }
 function wireClientFeatures() {
  $('#client-file-search')?.addEventListener('input',e=>filterClientFiles(e.target.value));
+ document.querySelectorAll('.client .stage').forEach((section,i)=>{
+  section.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'&&matchMedia('(hover: hover)').matches)setClientStage(i);});
+  section.addEventListener('focusin',()=>setClientStage(i));
+ });
  document.querySelectorAll('.tl li').forEach((item,i)=>{
   const button=document.createElement('button');button.type='button';button.dataset.jumpClientStage=String(i);button.innerHTML=item.innerHTML;item.replaceChildren(button);
  });
 }
+let mobileStageFrame=0;
+window.addEventListener('scroll',()=>{
+ if(!matchMedia('(max-width: 760px)').matches||mobileStageFrame||state.editing||document.querySelector('#client-file-search')?.value)return;
+ mobileStageFrame=requestAnimationFrame(()=>{
+  mobileStageFrame=0;
+  const stages=[...document.querySelectorAll('.client .stage')];if(!stages.length)return;
+  const guide=innerHeight*.4;
+  let active=stages.findIndex(stage=>stage.getBoundingClientRect().top>guide)-1;
+  if(active<0)active=stages.length-1;
+  if(stages[0].getBoundingClientRect().top>guide)active=0;
+  if(active!==activeStageIndex.get(P.slug))setClientStage(active,true);
+ });
+},{passive:true});
 document.addEventListener('click',e=>{
  const btn=e.target.closest('button');if(!btn)return;
  if(btn.hasAttribute('data-stage-help')){const box=btn.nextElementSibling,open=btn.getAttribute('aria-expanded')!=='true';document.querySelectorAll('.stage-help-pop').forEach(x=>x.hidden=true);document.querySelectorAll('.stage-help-toggle').forEach(x=>x.setAttribute('aria-expanded','false'));box.hidden=!open;btn.setAttribute('aria-expanded',String(open));}
  if(btn.hasAttribute('data-stage-help-close')){const box=btn.closest('.stage-help-pop');box.hidden=true;box.parentElement.querySelector('.stage-help-toggle').setAttribute('aria-expanded','false');}
- if(btn.hasAttribute('data-toggle-client-stage')){const i=Number(btn.dataset.toggleClientStage);setClientStage(i,btn.getAttribute('aria-expanded')!=='true');}
+ if(btn.hasAttribute('data-toggle-client-stage'))setClientStage(Number(btn.dataset.toggleClientStage));
  if(btn.hasAttribute('data-jump-client-stage'))jumpClientStage(Number(btn.dataset.jumpClientStage));
  if(btn.hasAttribute('data-close-updates'))$('.client-notifications').open=false;
  if(btn.hasAttribute('data-read-updates')){
@@ -1926,6 +2142,18 @@ document.addEventListener('click',e=>{
  if(btn.hasAttribute('data-calendar-download')&&P.meeting){const url=URL.createObjectURL(new Blob([calendarFile(P)],{type:'text/calendar;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=P.slug+'-reuniao.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.client-notifications[open],.calendar-options[open],.stage-help[open]').forEach(d=>d.open=false);}});
+
+// Let a tapped mobile project show the same selection state before routing.
+document.addEventListener('click',e=>{
+ const link=e.target.closest('.painel .prow__title > a[href^="#p/"]');
+ if(!link || !matchMedia('(max-width:620px)').matches || e.button!==0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)return;
+ e.preventDefault();
+ const card=link.closest('.prow');
+ if(card.classList.contains('is-pressed'))return;
+ card.classList.add('is-pressed');
+ const delay=matchMedia('(prefers-reduced-motion:reduce)').matches?0:180;
+ setTimeout(()=>{location.hash=link.getAttribute('href');},delay);
+});
 
 route();
 </script>
