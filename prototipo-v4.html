@@ -650,6 +650,87 @@ button,input,select,textarea{letter-spacing:.025em;}
 @media(max-width:560px){
   .client .facts dt,.client .facts dd{font-size:clamp(9px,2.8vw,10px);}
 }
+/* Monochrome direction: white canvas, neutral greys and charcoal. */
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"]{
+  --bg:#fff;
+  --raise:#fff;
+  --surface:#f3f3f3;
+  --ink:#242629;
+  --muted:#66686b;
+  --line:#dedfe0;
+  --line-strong:#a7a9ab;
+  --accent:#242629;
+  --on-accent:#fff;
+  --mark:#444649;
+  --mark-soft:rgb(36 38 41 / 6%);
+  --focus:#242629;
+  --glass:rgb(255 255 255 / 94%);
+  --glass-line:rgb(36 38 41 / 12%);
+  --shadow:0 18px 48px rgb(36 38 41 / 12%);
+  color-scheme:light;
+}
+.client,
+:root[data-theme="light"] .client,
+:root[data-theme="dark"] .client{
+  --brand-bg:#fff;
+  --brand-surface:#f3f3f3;
+  --brand-ink:#242629;
+  --brand-muted:#66686b;
+  --brand-line:#c8cacc;
+  --brand-accent:#242629;
+}
+:root[data-theme="light"] .client{--brand-surface:#f3f3f3;}
+.client .meet{background:#f3f3f3;}
+.client .stage.current{background:#f5f5f5;}
+.client .tl li.done::before,
+.client .tl li.done::after,
+.client .tl li.current::after{background:#444649;border-color:#444649;}
+.client .tl li.current b,
+.client .stage.current .stage__n,
+.client .journey-progress i{color:#444649;}
+.client .stage.current .pill--current{background:#444649;color:#fff;}
+.client .file__thumb,
+:root[data-theme="light"] .file__thumb{background:linear-gradient(160deg,#ededed,#d7d7d7);}
+.client .desc li::marker{color:#444649;}
+.notification-panel li.is-unread{border-left-color:#444649;}
+.prow__prog .prog__bar i.done,.prow__prog .prog__bar i.current{background:#444649;}
+.conn__dot{background:#707275;box-shadow:0 0 0 5px rgb(112 114 117 / 15%);}
+[data-theme-toggle]{display:none!important;}
+/* Editorial opening: split title and cover share the same tracks as the facts. */
+.client .site__in{height:58px;}
+.client{--project-columns:minmax(0,1.12fr) minmax(300px,.88fr);--project-gap:clamp(40px,7vw,100px);}
+.client .project-opening{display:grid;grid-template-columns:var(--project-columns);gap:var(--project-gap);align-items:center;padding-top:24px;}
+.client .project-heading{padding:0;min-width:0;align-self:center;}
+.client .project-heading .client-project-title{max-width:100%;margin:0!important;overflow:visible;text-overflow:clip;white-space:normal;text-align:left;text-align-last:left;text-transform:none;font-family:var(--display-font);font-size:clamp(42px,5.1vw,68px)!important;line-height:.98!important;letter-spacing:-.055em!important;color:var(--brand-ink);}
+.client .project-title__lead{display:block;font-size:.92em;font-weight:300;font-style:italic;text-transform:none;}
+.client .project-title__tail{display:block;margin-top:.08em;font-size:1.08em;font-weight:750;font-style:normal;text-transform:none;}
+.client .banner{width:100%;max-width:100%;margin:0;}
+.client .banner__img{overflow:hidden;}
+.client .banner__img img,.client .banner__img svg{height:var(--cover-image-height,100%);object-position:center top;}
+@media(prefers-reduced-motion:reduce){.client .banner__img{height:auto!important;}.client .banner__img img,.client .banner__img svg{height:100%;}}
+.client .hero{grid-template-columns:var(--project-columns);gap:var(--project-gap);padding:clamp(36px,4vw,54px) 0 56px;}
+.client .desc{max-width:62ch;color:var(--brand-ink);line-height:1.7;}
+.client .desc p:first-of-type{color:var(--brand-ink);}
+.client .facts{margin-top:0;padding-top:15px;border-top:1px solid var(--brand-ink);}
+.client .facts::before{display:none;}
+.client .facts>div{padding:8px 0;}
+.client .facts dt{color:var(--brand-muted);}
+.client .facts dd{color:var(--brand-ink);font-weight:500;}
+.client .meet{margin-top:0;}
+@media(max-width:860px){
+  .client{--project-columns:1fr;--project-gap:24px;}
+  .client .project-opening{padding-top:20px;}
+  .client .project-heading .client-project-title{font-size:clamp(44px,8vw,64px)!important;}
+  .client .hero{grid-template-columns:1fr;gap:34px;padding:38px 0 42px;}
+}
+@media(max-width:560px){
+  .client .site__in{height:52px;}
+  .client .project-opening{padding-top:18px;}
+  .client .project-heading .client-project-title{font-size:clamp(38px,10vw,54px)!important;}
+  .client .hero{padding:30px 0 36px;gap:28px;}
+}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
@@ -1323,6 +1404,7 @@ let P;
 function renderProject(slug) {
   P = state.projects.find(p => p.slug === slug);
   if (!P) { location.hash = 'painel'; return; }
+  const [titleLead, ...titleRest] = P.name.trim().split(/\s+/);
   document.title = `${P.name} · ${state.office}`;
   $('#chrome').innerHTML = '';
   $('#dock-slot').innerHTML = `<nav class="dock" aria-label="Ferramentas do escritório">
@@ -1341,11 +1423,15 @@ function renderProject(slug) {
     <div class="site"><div class="site__in"><svg><use href="#logo"/></svg><span>${esc(state.office)}</span><div class="client-header-tools">${notificationsHtml()}${themeBtn()}</div></div></div>
     <div class="cwrap">
       ${checklist()}
-      ${P.coverImg ? `<figure class="banner" data-editable style="margin-inline:0;margin-bottom:0"><span class="editbtns"><button class="editbtn" type="button" data-cover-pick>${icon('pencil')}Trocar capa</button><button class="editbtn" type="button" data-cover-remove>${icon('x')}Remover capa</button></span><div class="banner__img">${coverArt(P.coverImg)}</div></figure>`
-        : `<button class="setcover" type="button" data-cover-pick>${icon('upload')}<span>Definir capa<br><small>Uma imagem do projeto no topo da página do cliente</small></span></button>`}
+      <div class="project-opening">
+        <header class="project-heading">
+          <h1 class="client-project-title" title="${esc(P.name)}"><span class="project-title__lead">/${esc(titleLead.toLocaleLowerCase('pt-BR'))}</span>${titleRest.length ? `<strong class="project-title__tail">${esc(titleRest.join(' ').toLocaleLowerCase('pt-BR'))}</strong>` : ''}</h1>
+        </header>
+        ${P.coverImg ? `<figure class="banner" data-editable><span class="editbtns"><button class="editbtn" type="button" data-cover-pick>${icon('pencil')}Trocar capa</button><button class="editbtn" type="button" data-cover-remove>${icon('x')}Remover capa</button></span><div class="banner__img">${coverArt(P.coverImg)}</div></figure>`
+          : `<button class="setcover" type="button" data-cover-pick>${icon('upload')}<span>Definir capa<br><small>Uma imagem do projeto no topo da página do cliente</small></span></button>`}
+      </div>
       <section class="hero${openEditor === 'facts' ? ' hero--wide' : ''}">
         <div>${openEditor === 'desc' ? descEditor() : `
-          <h1 class="client-project-title" title="${esc(P.name)}">${esc(P.name)}</h1>
           <div class="desc" data-editable>${editBtn('desc', 'Descrição')}${descHtml(P.description) || (state.editing ? '<p style="opacity:.55">Sem descrição. Conte ao cliente em duas ou três frases o que é o projeto.</p>' : '')}</div>`}</div>
         <div>${openEditor === 'facts' ? factsEditor() : `
           <dl class="facts" data-editable>${editBtn('facts', 'Informações')}
@@ -1362,6 +1448,28 @@ function renderProject(slug) {
     </div></div>`;
   wireProject();
   wireClientFeatures();
+  wireCoverWipe();
+}
+
+let coverWipeWired=false;
+let coverWipeFrame=0;
+function updateCoverWipe(){
+  coverWipeFrame=0;
+  const image=document.querySelector('.client:not(.editing) .banner__img');
+  if(!image||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const fullHeight=image.clientWidth*9/16;
+  const visibleHeight=Math.max(0,fullHeight-window.scrollY);
+  image.style.setProperty('--cover-image-height',`${fullHeight}px`);
+  image.style.height=`${visibleHeight}px`;
+}
+function wireCoverWipe(){
+  if(!coverWipeWired){
+    const schedule=()=>{if(!coverWipeFrame)coverWipeFrame=requestAnimationFrame(updateCoverWipe);};
+    window.addEventListener('scroll',schedule,{passive:true});
+    window.addEventListener('resize',schedule);
+    coverWipeWired=true;
+  }
+  updateCoverWipe();
 }
 
 const editBtn = (what, label) => `<button class="editbtn" type="button" data-edit="${what}" aria-label="Editar ${label.toLowerCase()}">${icon('pencil')}${label}</button>`;
@@ -1484,7 +1592,7 @@ function ask(dlg) { return new Promise(res => { dlg.returnValue = ''; dlg.showMo
 /* --- editors ---------------------------------------------------------------- */
 const actions = () => `<div class="editor__actions"><button class="b" type="button" data-cancel>Cancelar</button><button class="b b--primary" type="submit">Salvar</button></div>`;
 function descEditor() {
-  return `<h1 class="client-project-title" title="${esc(P.name)}">${esc(P.name)}</h1><form class="editor" data-form="desc"><h3>Descrição</h3>
+  return `<form class="editor" data-form="desc"><h3>Descrição</h3>
     <div class="field"><label class="sr" for="ed-desc">Descrição</label><textarea class="textarea" id="ed-desc" rows="7">${esc(P.description)}</textarea>
     <p class="hint">Cada linha vira um parágrafo. Comece com “- ” para fazer uma lista.</p></div>${actions()}</form>`;
 }
