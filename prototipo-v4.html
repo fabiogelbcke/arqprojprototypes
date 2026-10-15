@@ -571,6 +571,27 @@ button,input,select,textarea,.brand,.topnav,.prow__client,.prow__type,.facts,.de
 .client-footer{margin-top:42px;padding-top:0;border-top:0;}
 @media(max-width:860px){.client .hero{padding-bottom:56px;}.client .journey-intro{margin-top:60px;}}
 @media(max-width:560px){.client .meet{padding:28px 0;}.client .meet{padding-inline:18px;}.client .stage.current{padding:24px 18px;}}
+/* HD cover and compact project summary */
+.client .banner__img{width:100%;height:auto;aspect-ratio:16/9;}
+.client .banner__img img,.client .banner__img svg{width:100%;height:100%;object-fit:cover;}
+.client .hero{padding:36px 0 28px;gap:clamp(24px,4vw,58px);}
+.client .project-kicker{margin-bottom:13px;}
+.client .client-project-title{font-size:clamp(27px,3.3vw,46px)!important;line-height:1.04!important;margin-bottom:14px!important;}
+.client .desc{font-size:12px;line-height:1.58;max-width:62ch;}
+.client .desc p{margin-bottom:9px;}
+.client .desc p:first-of-type{font-size:13px;line-height:1.58;}
+.client .desc ul{margin-top:7px;}
+.client .desc li{margin:3px 0;}
+.client .facts::before{margin-bottom:8px;}
+.client .facts>div{padding:5px 0;gap:12px;}
+.client .facts dt{font-size:8px;}
+.client .facts dd{font-size:12px;line-height:1.4;}
+.client .meet{margin-top:0;padding-block:22px;}
+.client .meet h2{margin-bottom:6px;}
+.client .meet__title{font-size:clamp(18px,2vw,22px);margin-bottom:4px;}
+.client .journey-intro{margin-top:44px;}
+@media(max-width:860px){.client .hero{padding:30px 0 22px;gap:24px;}.client .journey-intro{margin-top:38px;}}
+@media(max-width:560px){.client .banner__img{height:auto;aspect-ratio:16/9;}.client .client-project-title{font-size:clamp(25px,7vw,38px)!important;}.client .hero{padding:24px 0 20px;gap:20px;}.client .meet{padding-block:20px;}.client .journey-intro{margin-top:34px;}}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
