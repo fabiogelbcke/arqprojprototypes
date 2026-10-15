@@ -634,6 +634,13 @@ button,input,select,textarea{letter-spacing:.025em;}
 .client .facts>div{grid-template-columns:minmax(0,1fr);gap:2px;padding:7px 0;}
 .client .facts dt,.client .facts dd{text-align:left;justify-self:start;min-width:0;}
 .client .facts dt{padding-top:0;}
+/* Project facts in paired rows; white light theme */
+:root[data-theme="light"]{--bg:#fff;--raise:#fff;}
+:root[data-theme="light"] .client{--brand-bg:#fff;--brand-surface:#fff;}
+.client .facts>div{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:16px;align-items:baseline;}
+.client .facts dt{justify-self:start;text-align:left;font-size:11px;}
+.client .facts dd{justify-self:end;text-align:right;font-size:12px;overflow-wrap:anywhere;}
+@media(max-width:560px){.client .facts>div{grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:12px;}}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
