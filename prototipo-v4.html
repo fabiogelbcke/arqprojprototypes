@@ -924,12 +924,37 @@ button,input,select,textarea{letter-spacing:.025em;}
 .client .stage__title h2{letter-spacing:.025em;}
 .client .project-status .meet>div{min-width:0;}
 .client .project-status .meet__title,.client .project-status .meet__meta{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.client .project-status .meet__title{font-size:14px;letter-spacing:0;text-overflow:clip;}
+.client .project-status .meet__title{font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:0;text-overflow:clip;}
 .client .project-status .meet__title.meet__title--wrap{white-space:normal;overflow:visible;}
+.client .project-status .meet__schedule{display:flex;justify-content:space-between;align-items:baseline;gap:10px;overflow:visible;text-overflow:clip;}
+.client .project-status .meet__schedule span{white-space:nowrap;}
+.client .project-status .meet__schedule span:last-child{margin-left:auto;text-align:right;}
+@media(max-width:420px){.client .project-status .meet__schedule{font-size:10px;gap:6px;letter-spacing:0;}}
 .client .project-status .meeting-actions .cbtn{background:#242629;border-color:#242629;color:#fff;}
 .client .project-status .meeting-actions .cbtn:hover{background:#3b3e41;border-color:#3b3e41;color:#fff;}
 .client .stage:not(.current):not(.is-expanded) .stage__title h2{color:var(--brand-muted);}
 .client .stage:not(.current):not(.is-expanded) .pill{color:var(--brand-muted);border-color:var(--brand-muted);background:transparent;}
+/* In dark mode the selected stage reverses to a light, full-width band. */
+:root[data-theme="dark"] .client .stage.is-expanded{color:#242629;}
+:root[data-theme="dark"] .client .stage.is-expanded::before{background:#f1f1f1;}
+:root[data-theme="dark"] .client .stage.is-expanded .stage__n,
+:root[data-theme="dark"] .client .stage.is-expanded h2,
+:root[data-theme="dark"] .client .stage.is-expanded .notes,
+:root[data-theme="dark"] .client .stage.is-expanded .stage-help-toggle,
+:root[data-theme="dark"] .client .stage.is-expanded .iconbtn,
+:root[data-theme="dark"] .client .stage.is-expanded .ghostline{color:#242629;}
+:root[data-theme="dark"] .client .stage.is-expanded .stage__meta,
+:root[data-theme="dark"] .client .stage.is-expanded .empty-stage,
+:root[data-theme="dark"] .client .stage.is-expanded .file__meta,
+:root[data-theme="dark"] .client .stage.is-expanded .file__type,
+:root[data-theme="dark"] .client .stage.is-expanded .older summary{color:#55585b;}
+:root[data-theme="dark"] .client .stage.is-expanded .pill,
+:root[data-theme="dark"] .client .stage.is-expanded.current .pill--current{background:transparent;border-color:#777a7d;color:#242629;}
+:root[data-theme="dark"] .client .stage.is-expanded .file{background:#e2e3e4;color:#242629;}
+:root[data-theme="dark"] .client .stage.is-expanded .older li{border-top-color:#c4c6c8;}
+:root[data-theme="dark"] .client .stage.is-expanded .stage-help-toggle:hover,
+:root[data-theme="dark"] .client .stage.is-expanded .iconbtn:hover,
+:root[data-theme="dark"] .client .stage.is-expanded .ghostline:hover{background:#dedfe0;color:#242629;}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
@@ -2050,11 +2075,13 @@ function meetCard() {
  const m=P.meeting,link=m?safeWebLink(m.link):'';
  const weekday=m?new Intl.DateTimeFormat('pt-BR',{weekday:'long',timeZone:'UTC'}).format(new Date(`${m.date}T12:00:00Z`)):'';
  const title=m?(m.title||'Reunião do projeto'):'Vamos conversar sobre o seu projeto';
- const schedule=m?`${fmtLong(m.date)} · ${weekday} · ${m.start}${m.end?' – '+m.end:''}`:'Nenhuma reunião agendada. O próximo encontro aparecerá aqui.';
+ const day=m?`${weekday} ${fmtLong(m.date)}`:'';
+ const time=m?`${m.start}${m.end?' – '+m.end:''}`:'';
+ const location=m?.location?m.location.replace(/\s*[·/]\s*/g,' / '):'';
  return `<section class="meet" data-editable aria-label="Reunião">${editBtn('meet',m?'Reunião':'Agendar')}
  <div><h2>Próxima reunião</h2><p class="meet__title" title="${esc(title)}">${esc(title)}</p>
- <p class="meet__meta" title="${esc(schedule)}">${esc(schedule)}</p>
- ${m?.location?`<p class="meet__meta" title="Local: ${esc(m.location)}">Local: ${esc(m.location)}</p>`:''}</div>
+ ${m?`<p class="meet__meta meet__schedule"><span>${esc(day)}</span><span>${esc(time)}</span></p>`:'<p class="meet__meta">Nenhuma reunião agendada. O próximo encontro aparecerá aqui.</p>'}
+ ${location?`<p class="meet__meta" title="${esc(location)}">${esc(location)}</p>`:''}</div>
  ${m?`<div class="meeting-actions">${link?`<a class="cbtn" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Entrar na reunião</a>`:''}
  <details class="calendar-options"><summary class="b b--small">Adicionar à agenda</summary><div class="calendar-menu"><a href="${esc(calendarLink(P))}" target="_blank" rel="noopener noreferrer">Google Agenda</a><button type="button" data-calendar-download>Apple / Outlook</button></div></details></div>`:''}</section>`;
 }
