@@ -630,6 +630,10 @@ button,input,select,textarea{letter-spacing:.025em;}
 .client .file__meta,.client .older,.client .client-search-status,.client .client-footer,
 .client .cbtn{font-size:var(--type-meta);}
 @media(max-width:560px){.client{--type-display:clamp(30px,7vw,38px);--type-heading:22px;}}
+/* Align project facts with the left edge of the side column */
+.client .facts>div{grid-template-columns:minmax(0,1fr);gap:2px;padding:7px 0;}
+.client .facts dt,.client .facts dd{text-align:left;justify-self:start;min-width:0;}
+.client .facts dt{padding-top:0;}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
