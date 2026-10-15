@@ -921,6 +921,11 @@ button,input,select,textarea{letter-spacing:.025em;}
 .painel .progress-title,.client .tl b,.client .stage__title h2,.client .rail__now p{text-transform:uppercase;}
 .client .rail__now small{text-transform:none;}
 .client .project-status .meet{text-transform:uppercase;}
+.client .stage__title h2{letter-spacing:.025em;}
+.client .project-status .meet>div{min-width:0;}
+.client .project-status .meet__title,.client .project-status .meet__meta{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.client .project-status .meeting-actions .cbtn{background:#242629;border-color:#242629;color:#fff;}
+.client .project-status .meeting-actions .cbtn:hover{background:#3b3e41;border-color:#3b3e41;color:#fff;}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
@@ -1809,11 +1814,11 @@ function factRow([k, v]) {
 function meetEditor() {
   const m = P.meeting || { date: '', start: '', end: '', title: '', location: '', link: '' };
   return `<form class="editor" data-form="meet"><h3>${P.meeting ? 'Reunião' : 'Agendar reunião'}</h3>
-    <div class="field"><label for="m-title">Assunto</label><input class="input" id="m-title" value="${esc(m.title)}" placeholder="Apresentação do layout"></div>
+    <div class="field"><label for="m-title">Assunto</label><input class="input" id="m-title" value="${esc(m.title)}" maxlength="48" placeholder="Apresentação do layout"></div>
     <div class="row3"><div class="field"><label for="m-date">Data</label><input class="input" type="date" id="m-date" value="${m.date}" required></div>
       <div class="field"><label for="m-start">Início</label><input class="input" type="time" id="m-start" value="${m.start}" required></div>
       <div class="field"><label for="m-end">Fim</label><input class="input" type="time" id="m-end" value="${m.end}"></div></div>
-    <div class="row2"><div class="field"><label for="m-loc">Local</label><input class="input" id="m-loc" value="${esc(m.location)}" placeholder="Online, escritório, obra"></div>
+    <div class="row2"><div class="field"><label for="m-loc">Local</label><input class="input" id="m-loc" value="${esc(m.location)}" maxlength="60" placeholder="Online, escritório, obra"></div>
       <div class="field"><label for="m-link">Link da videochamada</label><input class="input" type="url" id="m-link" value="${esc(m.link || '')}" placeholder="https://meet.google.com/…"></div></div>
     <p class="hint">Horário de Brasília. O cliente adiciona à agenda dele com um clique.</p>
     <div class="editor__actions">${P.meeting ? '<button class="b b--ghost b--danger" type="button" data-remove-meeting style="margin-right:auto">Remover reunião</button>' : ''}<button class="b" type="button" data-cancel>Cancelar</button><button class="b b--primary" type="submit">Salvar</button></div></form>`;
@@ -2039,10 +2044,12 @@ function calendarFile(p) {
 function meetCard() {
  const m=P.meeting,link=m?safeWebLink(m.link):'';
  const weekday=m?new Intl.DateTimeFormat('pt-BR',{weekday:'long',timeZone:'UTC'}).format(new Date(`${m.date}T12:00:00Z`)):'';
+ const title=m?(m.title||'Reunião do projeto'):'Vamos conversar sobre o seu projeto';
+ const schedule=m?`${fmtLong(m.date)} · ${weekday} · ${m.start}${m.end?' – '+m.end:''}`:'Nenhuma reunião agendada. O próximo encontro aparecerá aqui.';
  return `<section class="meet" data-editable aria-label="Reunião">${editBtn('meet',m?'Reunião':'Agendar')}
- <div><h2>Próxima reunião</h2><p class="meet__title">${m?esc(m.title||'Reunião do projeto'):'Vamos conversar sobre o seu projeto'}</p>
- <p class="meet__meta">${m?`${esc(fmtLong(m.date))} · ${esc(weekday)} · ${esc(m.start)}${m.end?' – '+esc(m.end):''}`:'Nenhuma reunião agendada. O próximo encontro aparecerá aqui.'}</p>
- ${m?.location?`<p class="meet__meta">Local: ${esc(m.location)}</p>`:''}</div>
+ <div><h2>Próxima reunião</h2><p class="meet__title" title="${esc(title)}">${esc(title)}</p>
+ <p class="meet__meta" title="${esc(schedule)}">${esc(schedule)}</p>
+ ${m?.location?`<p class="meet__meta" title="Local: ${esc(m.location)}">Local: ${esc(m.location)}</p>`:''}</div>
  ${m?`<div class="meeting-actions">${link?`<a class="cbtn" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Entrar na reunião</a>`:''}
  <details class="calendar-options"><summary class="b b--small">Adicionar à agenda</summary><div class="calendar-menu"><a href="${esc(calendarLink(P))}" target="_blank" rel="noopener noreferrer">Google Agenda</a><button type="button" data-calendar-download>Apple / Outlook</button></div></details></div>`:''}</section>`;
 }
