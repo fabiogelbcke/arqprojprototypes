@@ -610,6 +610,26 @@ button,input,select,textarea{letter-spacing:.025em;}
 .client .desc p{text-align:justify;text-justify:inter-word;hyphens:auto;}
 .client .desc li::before{content:'/';display:inline-block;margin-right:.65em;color:var(--brand-muted);font-weight:500;}
 @media(max-width:860px){.client .hero{grid-template-columns:1fr;}}
+/* Client typography: four consistent sizes */
+.client{
+  --type-display:clamp(32px,3.4vw,44px);
+  --type-heading:24px;
+  --type-body:14px;
+  --type-meta:12px;
+  font-size:var(--type-body);
+}
+.client .client-project-title{font-size:var(--type-display)!important;}
+.client .journey-intro h2,.client .stage h2,.client .meet__title{font-size:var(--type-heading);}
+.client .stage__n{font-size:var(--type-heading);}
+.client .desc,.client .desc p:first-of-type,.client .facts dd,.client .meet__meta,
+.client .tl b,.client .notes,.client .file__name,.client .empty-stage,
+.client .calendar-menu a,.client .calendar-menu button{font-size:var(--type-body);}
+.client .site__in,.client .facts::before,.client .facts dt,.client .meet h2,
+.client .journey-kicker,.client .journey-progress,.client .tl .n,.client .stage__meta,
+.client .pill,.client .stage.current .pill--current,.client .stage-help-toggle,
+.client .file__meta,.client .older,.client .client-search-status,.client .client-footer,
+.client .cbtn{font-size:var(--type-meta);}
+@media(max-width:560px){.client{--type-display:clamp(30px,7vw,38px);--type-heading:22px;}}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
