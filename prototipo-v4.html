@@ -644,6 +644,12 @@ button,input,select,textarea{letter-spacing:.025em;}
 /* Align project facts with the description */
 .client .facts{margin-top:58px;}
 @media(max-width:860px){.client .facts{margin-top:0;}}
+/* Keep each project fact on one line */
+.client .facts>div{grid-template-columns:max-content minmax(0,1fr);}
+.client .facts dt,.client .facts dd{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+@media(max-width:560px){
+  .client .facts dt,.client .facts dd{font-size:clamp(9px,2.8vw,10px);}
+}
 </style>
 <!-- Hanken Grotesk, SIL Open Font License 1.1: https://github.com/google/fonts/blob/main/ofl/hankengrotesk/OFL.txt -->
 </head>
@@ -780,7 +786,14 @@ const fmtLong = value => {
 };
 const fmtDate = fmtLong;
 const fieldDef = k => DETAIL_FIELDS.find(d => d.key === k);
-const showValue = (k, v) => { const t = fieldDef(k)?.type; return t === 'area' ? `${Number(v).toLocaleString('pt-BR')} m²` : t === 'date' ? fmtLong(v) : typeof v === 'string' ? v.toLocaleUpperCase('pt-BR') : v; };
+const showArea = value => {
+  const number = typeof value === 'number' ? value.toLocaleString('pt-BR') : String(value ?? '').trim().replace(/\s*m²$/i, '');
+  return number ? `${number} m²` : '';
+};
+const showValue = (k, v) => {
+  const type = fieldDef(k)?.type;
+  return type === 'area' || /^Área\b/i.test(k) ? showArea(v) : type === 'date' ? fmtLong(v) : typeof v === 'string' ? v.toLocaleUpperCase('pt-BR') : v;
+};
 
 // name, kind (pdf|img|dwg|skp), size, date, older [{name, date}]
 const F = (name, kind, size, date, older = []) => ({ name, kind, size, date, older });
